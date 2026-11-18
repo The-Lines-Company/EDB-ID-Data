@@ -4,7 +4,13 @@ Rule: for year-end data, take the value from the most recent disclosure year tha
 observation year (so restated comparatives override original figures), at network='All'."""
 import sys, duckdb, pandas as pd, numpy as np
 from metrics_def import METRICS, DERIVED
+import os
 src, out = sys.argv[1], sys.argv[2]
+# Line change register: earlier names for the same line (rename = stitch silently; definition_change = stitch and flag)
+_reg = os.path.join(os.path.dirname(os.path.abspath(__file__)), "line_changes.csv")
+REG = pd.read_csv(_reg) if os.path.exists(_reg) else pd.DataFrame(columns=["stitch"])
+REG = REG[REG.stitch.isin(["yes","flag"])]
+def _same(a, b): return (pd.isna(a) and b is None) or a == b
 con = duckdb.connect()
 con.execute(f"create table id as select * from read_parquet('{src}') where source='Year end' and network='All'")
 rows, audit = [], []
@@ -13,21 +19,33 @@ for key,label,group,units,sec,cat,sub,desc in METRICS:
     q = f"""select edb, coalesce(obs_yr, disc_yr) yr, disc_yr, value, version from id
             where section like $sec || '%' and category=$cat and {subc} and description=$desc and value is not null"""
     params = {"sec":sec,"cat":cat,"desc":desc} | ({} if sub is None else {"sub":sub})
-    d = con.execute(q, params).df()
+    d = con.execute(q, params).df(); d["basis"] = "current"
+    # earlier line names from the register
+    for _, r in REG.iterrows():
+        if not sec.startswith(str(r.section)) and not str(r.section).startswith(sec): continue
+        if not (_same(r.new_sub_category, sub) and r.new_description == desc and r.new_category in (cat, "*")): continue
+        ocat = cat if r.old_category == "*" else r.old_category
+        osub = None if pd.isna(r.old_sub_category) else r.old_sub_category
+        osc = "sub_category is null" if osub is None else "sub_category = $sub"
+        oq = f"""select edb, coalesce(obs_yr, disc_yr) yr, disc_yr, value, version from id
+            where section like $sec || '%' and category=$cat and {osc} and description=$desc and value is not null"""
+        od = con.execute(oq, {"sec":sec,"cat":ocat,"desc":r.old_description} | ({} if osub is None else {"sub":osub})).df()
+        od["basis"] = f"{r.id} {r.change_type}"
+        d = pd.concat([d, od[~od.set_index(["edb","yr","disc_yr"]).index.isin(d.set_index(["edb","yr","disc_yr"]).index)]])
     if d.empty: audit.append((key,"NO MATCH",0)); continue
     # duplicates within same edb/yr/disc_yr (e.g. multiple rows) -> flag and take first
     dup = d.groupby(["edb","yr","disc_yr"]).size().max()
     # original (as first disclosed) vs latest
     d = d.sort_values(["edb","yr","disc_yr"])
     first = d.groupby(["edb","yr"]).first().reset_index()
-    last = d.groupby(["edb","yr"]).last().reset_index()
+    last = d.groupby(["edb","yr"]).last().reset_index()  # includes basis of the value used
     m = last.merge(first[["edb","yr","value"]], on=["edb","yr"], suffixes=("","_orig"))
     m["restated"] = ~np.isclose(m.value, m.value_orig, rtol=1e-4, atol=0.5)
     m["metric"] = key
-    rows.append(m[["edb","yr","metric","value","value_orig","restated","disc_yr"]])
+    rows.append(m[["edb","yr","metric","value","value_orig","restated","disc_yr","basis"]])
     audit.append((key,"ok" if dup==1 else f"dup rows x{dup}",len(m)))
 long = pd.concat(rows)
-long = long[long.yr.between(2013, 2025)]
+long = long[long.yr >= 2013]  # no upper cap: latest year-end data flows through automatically
 wide = long.pivot_table(index=["edb","yr"], columns="metric", values="value").reset_index()
 for key,label,group,units,expr in DERIVED:
     try: wide[key] = wide.eval(expr)
