@@ -1,0 +1,338 @@
+[
+  {
+    "id": "EDB_ID__Full",
+    "metadata": {
+      "filename": "EDB_ID__Full",
+      "summary": "Consolidated Information disclosure data for Electricity Distribution Business",
+      "notes": "All reasonable care and diligence has been taken in processing and extracting the data included in the supporting datasets.\n  The databases are intended to include data publicly disclosed on the websites of the regulated providers.\n  However, we do not guarantee that the data and information in the database is error free. Users should apply reasonable care in the use of, or reliance on, any material contained in this document.\n  Note that the disclosure requirements (including definitions of some measures) have been amended over time.\n  Note that the disclosures made are under various regimes including: Electricity Distribution (Information Disclosure) Requirements 2008, Electricity Distribution Information Disclosure Determination 2012 (this includes the Transitional 2012 requirements).\n  For any feedback or queries related to the databases, please email contact infrastructure.regulation@comcom.govt.nz with 'EDB ID database' included in the subject line.",
+      "changes": "Horizon Energy changed name to Horizon Networks in 2024.\n  Eastland Network changed name to Firstlight Network in 2023.\n  Counties Power changed name to Counties Energy in 2021.\n  EA Networks is the trading name for Electricity Ashburton Ltd.\n  Orion NZ was exempted from AMP submission in 2012 due to the impacts of the Canterbury earthquakes.\n  Vector sold Wellington Electricity in 2008 and Wellington Electricity was established partway through disclosure year 2009. Vector's submission for 2008 includes the Wellington region."
+    },
+    "fields": [
+      {
+        "NAME": "edb",
+        "DATA_TYPE": "numeric",
+        "DESCRIPTION": "Electricity distribution business name.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "network",
+        "DATA_TYPE": "numeric",
+        "DESCRIPTION": "Sub-network region name or 'All' indicating complete network. Not used for 2008 ID.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "disc_yr",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Disclosure year.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "schedule",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Disclosure schedule name.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "source",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Disclosure type: Year beginning (Asset management plans and forecast information, schedules 11-13 under Electricity Distribution Information Disclosure Determination 2012), year end (Financial and non financial information relating to network assets, schedules 1-10 under Electricity Distribution Information Disclosure Determination 2012), 2012 Transitional (Refers to information provided in the first year of information disclosure under the 2012 regime), 2008 ID (Refers to information provided under the Electricity Distribution (Information Disclosure) Requirements 2008.",
+        "ADDED_IN_VERSION": "2024.05.1"
+      },
+      {
+        "NAME": "section",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Schedule Section title. See `SECT_NO` sect_no for numeric, sortable variation.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "category",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "First category, typically matches the furthest left row descriptor in schedule.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "sub_category",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Second category, typically matches the second left row descriptor in schedule. Only used when required and blank otherwise.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "description",
+        "DATA_TYPE": "numeric",
+        "DESCRIPTION": "Measure description, typically matches column header. A value of 'no_header' indicates no column header was included.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "value",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Numeric value. If blank this indicates not provided or TEXT_INPUT value.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "units",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Units relating to numeric value in VALUE column.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "text_input",
+        "DATA_TYPE": "numeric",
+        "DESCRIPTION": "Text value. If blank indicates numeric value for current measure or not provided. Not used for 2008 ID.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "obs_yr",
+        "DATA_TYPE": "numeric",
+        "DESCRIPTION": "Observation year.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "fcast_yr",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Forecast year.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "sect_no",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Numeric section value. This can be used to sort by section by order listed in schedule. Not used for 2008 ID.",
+        "ADDED_IN_VERSION": "2024.05.1"
+      },
+      {
+        "NAME": "sch_ref",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Schedule reference. This refers to the row number in the submitted schedule. This does not always correspond to the same row for all providers due to added rows.",
+        "ADDED_IN_VERSION": "2015.05.1"
+      },
+      {
+        "NAME": "version",
+        "DATA_TYPE": "character",
+        "DESCRIPTION": "Version number in the format, year, month and patch version e.g. YYYY.MM.PATCH format. A patch version of greater than one indicates revision.",
+        "ADDED_IN_VERSION": "2024.05.1"
+      }
+    ]
+  },
+  {
+    "id": "EDB_ID__10a_interruptions",
+    "metadata": {
+      "filename": "EDB_ID__10a_interruptions",
+      "summary": "Raw interruptions table (10a) consolidated from individual EDB files.",
+      "notes": "For DY25 these EDBs look to have reported icp_interruption_minutes on a per ICP basis which doesn't match the definition:\n  Buller Electricity, Electricity Invercargill, MainPower NZ, OtagoNet, and The Lines Company.\n  These processing steps were followed: the start/end date and start/end time were combined into start_dateime and end_datetime; some cleaning of obvious\n  start and end date errors; conversion to categorical for planned_or_unplanned where obvious.\n  The databases are intended to include data publicly disclosed on the websites of the regulated providers.\n  However, we do not guarantee that the data and information in the database is error free. Users should apply reasonable care in the use of, or reliance on, any material contained in this document.\n  Note that the disclosure requirements (including definitions of some measures) have been amended over time.\n  Note that the disclosures made are under the Electricity Distribution Information Disclosure Determination 2012. See the determinations for the authoritive definitions of terms.\n  For any feedback or queries related to the databases, please email contact infrastructure.regulation@comcom.govt.nz with 'EDB ID database' included in the subject line.",
+      "changes": {}
+    },
+    "fields": [
+      {
+        "name": "edb",
+        "description": "edb name"
+      },
+      {
+        "name": "disc_yr",
+        "description": "Disclosure year."
+      },
+      {
+        "name": "subnetwork",
+        "description": "Sub-network region name or blank indicating complete network."
+      },
+      {
+        "name": "interruption_identifier",
+        "description": "Identifier for the interruption."
+      },
+      {
+        "name": "feeder",
+        "description": "Feeder(s) affected by interruption"
+      },
+      {
+        "name": "circuit_location",
+        "description": "Which table the table_value relates to, one of SAIDI, SAIFI or Customer Impact"
+      },
+      {
+        "name": "start_datetime",
+        "description": "Start date time (dd/mm/yyyy hh:mm:ss)"
+      },
+      {
+        "name": "end_datetime",
+        "description": "End date time (dd/mm/yyyy hh:mm:ss)"
+      },
+      {
+        "name": "saidi_value",
+        "description": "SAIDI value"
+      },
+      {
+        "name": "saifi_value",
+        "description": "SAIFI value"
+      },
+      {
+        "name": "number_of_icps_interrupted",
+        "description": "Number of ICPs affected by interruption"
+      },
+      {
+        "name": "icp_interruption_minutes",
+        "description": "ICP interruption minutes"
+      },
+      {
+        "name": "planned_or_unplanned",
+        "description": "Whether interruption was planned or unplanned, categorical"
+      },
+      {
+        "name": "cause",
+        "description": "Cause of interruption, categorical"
+      },
+      {
+        "name": "explanation",
+        "description": "Any explanation to help clarify the context of the interruption, including what the cause is if recorded as 'Other cause'"
+      },
+      {
+        "name": "source",
+        "description": "Disclosure type: Year beginning (Asset management plans and forecast information, schedules 11-13 under Electricity Distribution Information\n    Disclosure Determination 2012), year end (Financial and non financial information relating to network assets, schedules 1-10 \n    under Electricity Distribution Information Disclosure Determination 2012)"
+      },
+      {
+        "name": "schedule",
+        "description": "Disclosure schedule name."
+      },
+      {
+        "name": "section",
+        "description": "Schedule Section title. See `SECT_NO` sect_no for numeric, sortable variation."
+      },
+      {
+        "name": "sect_no",
+        "description": "Numeric section value. This can be used to sort by section by order listed in schedule. Not used for 2008 ID."
+      },
+      {
+        "name": "row_num",
+        "description": "This refers to the row number in the submitted schedule."
+      }
+    ]
+  },
+  {
+    "id": "EDB_ID__10vi_worst_feeders",
+    "metadata": {
+      "filename": "EDB_ID__10vi_worst_feeders",
+      "summary": "Worst performing feeders table (10vi) consolidated from individual EDB files.",
+      "notes": "These processing steps were followed: the 3 tables for SAIDI, SAIFI and Customer Impact were combined into one table.\n  The databases are intended to include data publicly disclosed on the websites of the regulated providers.\n  However, we do not guarantee that the data and information in the database is error free. Users should apply reasonable care in the use of, or reliance on, any material contained in this document.\n  Note that the disclosure requirements (including definitions of some measures) have been amended over time.\n  Note that the disclosures made are under the Electricity Distribution Information Disclosure Determination 2012. See the determinations for the authoritive definitions of terms.\n  For any feedback or queries related to the databases, please email contact infrastructure.regulation@comcom.govt.nz with 'EDB ID database' included in the subject line.",
+      "changes": {}
+    },
+    "fields": [
+      {
+        "name": "edb",
+        "description": "edb name"
+      },
+      {
+        "name": "disc_yr",
+        "description": "Disclosure year."
+      },
+      {
+        "name": "subnetwork",
+        "description": "Sub-network region name or blank indicating complete network."
+      },
+      {
+        "name": "rank",
+        "description": "Worst-performing feeder rank."
+      },
+      {
+        "name": "table_description",
+        "description": "Which table the table_value relates to, one of SAIDI, SAIFI or Customer Impact"
+      },
+      {
+        "name": "feeder",
+        "description": "Feeder name"
+      },
+      {
+        "name": "table_value",
+        "description": "Numeric value, relates to table_description"
+      },
+      {
+        "name": "number_of_unplanned_interruptions",
+        "description": "Number of Unplanned Interruptions"
+      },
+      {
+        "name": "most_common_cause",
+        "description": "Most common cause of unplanned interruptions"
+      },
+      {
+        "name": "circuit_length_of_feeder",
+        "description": "Circuit length of feeder"
+      },
+      {
+        "name": "number_of_icps",
+        "description": "Number of ICPs affected by interruption"
+      },
+      {
+        "name": "percent_of_feeder_overhead",
+        "description": "Percent % of Feeder Overhead (optional)"
+      },
+      {
+        "name": "source",
+        "description": "Disclosure type: Year beginning (Asset management plans and forecast information, schedules 11-13 under Electricity Distribution Information\n    Disclosure Determination 2012), year end (Financial and non financial information relating to network assets, schedules 1-10 \n    under Electricity Distribution Information Disclosure Determination 2012)"
+      },
+      {
+        "name": "schedule",
+        "description": "Disclosure schedule name."
+      },
+      {
+        "name": "section",
+        "description": "Schedule Section title. See `SECT_NO` sect_no for numeric, sortable variation."
+      },
+      {
+        "name": "sect_no",
+        "description": "Numeric section value. This can be used to sort by section by order listed in schedule. Not used for 2008 ID."
+      },
+      {
+        "name": "row_num",
+        "description": "This refers to the row number in the submitted schedule."
+      }
+    ]
+  },
+  {
+    "id": "EDB_ID__zone_substations_geospatial",
+    "metadata": {
+      "filename": "EDB_ID__zone_substations_geospatial",
+      "summary": "Unified GeoPackage of substation locations and boundaries consolidated from individual EDB files.",
+      "notes": "Two geometry layers are included: substation_points, type POINT, that shows substations locations and substation_polygons, type POLYGON, that shows substation boundaries.\n  Non-spatial attributes are retained in the respective layer. All geometries are in EPSG:2193.\n  These processing steps were followed: Removed Z (elevation) dimensions from all geometries; Separated substation locations (POINT) and substation boundaries (POLYGON); \n  Converted substation locations provided as polygons to points using polygon centroids; Reprojected all geometries to NZGD2000 / New Zealand Transverse Mercator (EPSG:2193);\n  Simplified geometries to a minimum tolerance of 1 metre; Performed light cleanup of data columns, \n  specifically, input and output voltage values were standardized to ensure consistent representation in kilovolts (kV) and split into input and output voltage when given together.\n  All reasonable care and diligence has been taken in processing and extracting the data included in the supporting datasets.\n  The databases are intended to include data publicly disclosed on the websites of the regulated providers.\n  However, we do not guarantee that the data and information in the database is error free. Users should apply reasonable care in the use of, or reliance on, any material contained in this document.\n  Note that the disclosure requirements (including definitions of some measures) have been amended over time.\n  Note that the disclosures made are under the Electricity Distribution Information Disclosure Determination 2012. See the determinations for the authoritative definitions of terms.\n  For any feedback or queries related to the databases, please email contact infrastructure.regulation@comcom.govt.nz with 'EDB ID database' included in the subject line.",
+      "changes": {}
+    },
+    "fields": [
+      {
+        "name": "edb",
+        "data_type": "character",
+        "description": "edb name",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "geom_kind",
+        "data_type": "character",
+        "description": "geometry type, point or polygon",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "name",
+        "data_type": "character",
+        "description": "Substation name, as submitted by EDB",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "feeders",
+        "data_type": "character",
+        "description": "Associated feeders, concatenated with '|' when in separate columns",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "input_voltage",
+        "data_type": "character",
+        "description": "Input voltages (kV) that the substation primarily transforms",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "output_voltage",
+        "data_type": "character",
+        "description": "Output voltages (kV) that the substation primarily transforms",
+        "added_in_version": "2025.09.1"
+      },
+      {
+        "name": "extra",
+        "data_type": "character",
+        "description": "Additional fields submitted by providers that may be useful, concatenated with '|' when in separate columns",
+        "added_in_version": "2025.09.1"
+      }
+    ]
+  }
+]
