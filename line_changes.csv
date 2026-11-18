@@ -1,0 +1,22 @@
+id,section,old_category,old_sub_category,old_description,new_category,new_sub_category,new_description,old_disc_yrs,new_disc_yrs,change_type,stitch,note
+R01,1(iii),Energy intensity,,Total energy delivered to ICPs per Average number of ICPs (kWh/ICP),Energy intensity,,Total energy delivered to ICPs per average number of ICPs (kWh/ICP),2013-2014,2015-,rename,yes,Capitalisation change only
+R02,1(iv),Total revaluation,,Total revaluations,Total revaluations,,Total revaluations,2013-2014,2015-,rename,yes,Category label change only
+R03,1(iv),Regulatory profit/loss,,Regulatory profit/loss,Regulatory profit/(loss) including financial incentives and wash-ups,,Regulatory profit/(loss) including financial incentives and wash-ups,2013-2014,2015-,definition_change,flag,"From DY2015 includes financial incentives and wash-ups (Schedule 2(v), new in DY2015); 2013-14 basis excludes them"
+R04,1(iv),Pass-through and recoverable costs,,Pass-through and recoverable costs,Pass-through and recoverable costs excluding financial incentives and wash-ups,,Pass-through and recoverable costs excluding financial incentives and wash-ups,2013-2014,2015-,definition_change,flag,From DY2015 financial incentives and wash-ups separated out
+R05,1(v),Interruption rate,,Interruptions per 100 circuit km,Interruptions per 100 circuit km,,Interruptions per 100 circuit km,2013-2014,2015-,rename,yes,Category label change only; note DY2023 class definition change still applies
+R06,3(i),Operating surplus / (deficit),,Pass-through and recoverable costs,Operating surplus / (deficit),,Pass-through and recoverable costs excluding financial incentives and wash-ups,2013-2014,2015-,definition_change,flag,As R04
+R07,3(i),*,,*,*,,*,2013-2014,2015-,restructure,no,Profit build-up restructured in DY2015 (tax and term credit spread lines regrouped); use 1(iv) for profit series
+R08,6a(ix),Non-network assets,Non-network assets expenditure,Non-network assets expenditure,Non-network assets,Expenditure on non-network assets,Expenditure on non-network assets,2013-2014,2015-,rename,yes,Label change only
+R09,8(ii),*,Consumer totals,Total transmission line charge revenue (if available),*,Consumer totals,Total transmission line charge revenue,2013-2023,2024-,rename,yes,"'(if available)' dropped; Total/Standard/Non-Standard. Split unreliable for some EDBs (e.g. TLC RY21, RY24)"
+R10,8(ii),*,Consumer totals,Notional revenue foregone (if applicable),*,Consumer totals,Notional revenue foregone from posted discounts (if applicable),2013-2014,2015-2023,definition_change,flag,Narrowed to posted discounts DY2015; line discontinued after DY2023
+R11,8(i) / 8(ii) 'Price Component 2',,,*,,,*,,2024-,new_line,no,"New detailed price-component tables (DY2024 placeholder, populated DY2025, ~13 EDBs); no history"
+R12,9e(iii),Transformer capacity,,Zone substation transformer capacity,Transformer capacity,,Total zone substation transformer capacity,2013-2023,2024-,split,no,Split into EDB owned / Non-EDB owned / Total from DY2024; check old basis per EDB before stitching
+R13,9e(iii),Transformer capacity,,"Distribution transformer capacity (Non-EDB owned, estimated)",,,,2015-2023,,discontinued,no,Not disclosed from DY2024
+R14,9e(i),Number of decommissionings,,*,,,,,2023-,new_line,no,Decommissionings disclosed from DY2023
+R15,10(i),SAIFI and SAIDI by class,,*,SAIFI and SAIDI by class,,*,2013-2022,2023-,definition_change,no,Class B/C definitions changed DY2023 (DPP4); raw series not comparable across the break; 'Transitional SAIFI and SAIDI (previous method)' from DY2023 (~22 EDBs) gives old-basis continuity
+R16,10(i),Normalised SAIFI and SAIDI,,Classes B & C (interruptions on the network),,,,2013-2024,,discontinued,no,Normalised SAIDI/SAIFI absent from Schedule 10 from DY2025
+R17,10(i),Quality path normalised reliability limit,,Limit applicable to disclosure year,,,,2013-2020,,discontinued,no,Not in Schedule 10 from DY2021
+R18,10(ii),Breakdown of third party interference,,*,,,,,2023-,new_line,no,Third party sub-causes from DY2023; 'Other cause' from DY2024
+R19,6b(i),Non-network opex,,Non-network solutions provided by a related party or third party,,,,,2025-,new_line,no,New opex line DY2025 (~20 EDBs)
+R20,2(v) / 3(ii) / 3(iii) / 5b-5e,*,,*,*,,*,,,section_changes,no,2(v) financial incentives from DY2015; 3(ii) renamed DY2015; 3(iii) IRIS ends DY2023; 5b(iii) renamed DY2019; 5d(iii)/5e(ii) end DY2022
+R21,all,*,,*,*,,*,pre-2013,2013-,regime_change,no,Pre-2013 data is 2008 ID or 2012 Transitional basis; not comparable with 2012 Determination (source='Year end')
