@@ -74,3 +74,24 @@ DERIVED = [
  ("dist_rev_per_icp","Distribution revenue per ICP","Pricing","$/ICP","dist_line_rev * 1000 / icps_avg"),
  ("saidi_bc","SAIDI Classes B + C (raw)","Reliability","minutes","saidi_b + saidi_c"),
 ]
+
+# Combined series for amalgamated EDBs: (combined name, member EDBs, successor EDB that reports
+# the merged business from the first post-merger year). Pre-merger years are aggregated from members.
+COMBINED = [
+ ("Network Tasman (incl. Nelson)", ["Network Tasman", "Nelson Electricity"], "Network Tasman"),  # amalgamated 31 March 2026
+]
+# How each disclosed metric combines across members. "sum"; ("wavg", weight_metric) for a weighted average;
+# None = not combinable (left blank). Derived metrics are recalculated from the combined base metrics.
+_SUM = ["icps_avg","energy_gwh","circuit_km","overhead_km","underground_km","rab_open","rab_close","depreciation",
+        "revaluations","assets_commissioned","reg_income","reg_profit","passthrough","line_rev","dist_line_rev",
+        "opex","opex_network","opex_nonnetwork","opex_sie","opex_veg","opex_rcmi","opex_arr","opex_sons","opex_bs",
+        "capex_total","capex_network","capex_nonnetwork","capex_cc","capex_growth","capex_arr","capex_reloc","capex_rse","cap_contrib"]
+COMBINE_RULE = {k: "sum" for k in _SUM}
+COMBINE_RULE.update({
+ "max_demand_mw": None,                       # coincident peak of the merged network is not the sum of the two
+ "loss_ratio": ("wavg", "energy_gwh"),        # approximation
+ "roi_post_tax": ("wavg", "rab_open"),        # approximation
+ "roi_vanilla": ("wavg", "rab_open"),         # approximation
+ "int_per_100km": ("wavg", "circuit_km"),
+ **{k: ("wavg", "icps_avg") for k in ["saidi_b","saidi_c","saifi_b","saifi_c","saidi_bc_norm","saifi_bc_norm","saidi_c_prev","saifi_c_prev"]},
+})

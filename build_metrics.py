@@ -3,7 +3,7 @@ Usage: python build_metrics.py <EDB_ID_Full_*.parquet> <outdir>
 Rule: for year-end data, take the value from the most recent disclosure year that reports each
 observation year (so restated comparatives override original figures), at network='All'."""
 import sys, duckdb, pandas as pd, numpy as np
-from metrics_def import METRICS, DERIVED
+from metrics_def import METRICS, DERIVED, COMBINED, COMBINE_RULE
 import os
 src, out = sys.argv[1], sys.argv[2]
 # Line change register: earlier names for the same line (rename = stitch silently; definition_change = stitch and flag)
@@ -47,6 +47,27 @@ for key,label,group,units,sec,cat,sub,desc in METRICS:
 long = pd.concat(rows)
 long = long[long.yr >= 2013]  # no upper cap: latest year-end data flows through automatically
 wide = long.pivot_table(index=["edb","yr"], columns="metric", values="value").reset_index()
+# Combined series for amalgamated EDBs (see COMBINED in metrics_def.py)
+for name, members, successor in COMBINED:
+    sub = wide[wide.edb.isin(members)]
+    out_rows = []
+    for yr, g in sub.groupby("yr"):
+        if set(g.edb) != set(members):      # post-merger: successor reports the combined business
+            if (g.edb == successor).all() and not wide[(wide.edb.isin([m for m in members if m != successor])) & (wide.yr == yr)].shape[0]:
+                r = g.iloc[0].copy(); r["edb"] = name; out_rows.append(r)
+            continue
+        r = pd.Series({"edb": name, "yr": yr})
+        for k in [m[0] for m in METRICS]:
+            rule = COMBINE_RULE.get(k)
+            if k not in g or rule is None or g[k].isna().any(): r[k] = np.nan
+            elif rule == "sum": r[k] = g[k].sum()
+            else:
+                w = g[rule[1]]
+                r[k] = np.nan if w.isna().any() else (g[k] * w).sum() / w.sum()
+        out_rows.append(r)
+    if out_rows:
+        wide = pd.concat([wide, pd.DataFrame(out_rows)], ignore_index=True)
+        audit.append((f"combined: {name}", "ok", len(out_rows)))
 for key,label,group,units,expr in DERIVED:
     try: wide[key] = wide.eval(expr)
     except Exception as e: audit.append((key,f"derive failed {e}",0))
